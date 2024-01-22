@@ -14,7 +14,7 @@ Welcome to Wax, a social media platform for music enthusiasts! This React Native
 Clone the project
 
 ```bash
-  git clone https://github.com/royr5/gatefold-frontend.git
+  git clone https://github.com/Jord000/wax-frontend
 ```
 
 Go to the project directory
@@ -37,7 +37,7 @@ Run the app
 
 ## Backend Repository
 
-The backend code for this project can be found in the [gatefold-api repository](https://github.com/royr5/gatefold-api).
+The backend code for this project can be found in the https://github.com/Jord000/wax-api
 
 ## Features
 
@@ -46,6 +46,7 @@ The backend code for this project can be found in the [gatefold-api repository](
 - **Search Functionality:** Easily search for specific songs, albums, or artists.
 - **Music Page:** Listen to previews, add ratings and reviews.
 - **Integration with Spotify API:** Integration with Spotify for an extensive music database.
+  
 ## Technologies Used
 
 - React Native with Expo
