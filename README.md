@@ -1,6 +1,6 @@
 
 
-# Wax Frontend
+# Wax
 
 Welcome to Wax, a social media platform for music enthusiasts! This React Native app, built with Expo and styled with Nativewind, allows users to explore, rate, and review songs and albums from around the world.
 
