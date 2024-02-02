@@ -36,6 +36,17 @@ export default function Auth({ session }: { session: Session | null }) {
 
   async function signUpWithEmail() {
     setLoading(true);
+    const { data } = await supabase
+      .from("users")
+      .select("username")
+      .eq("username", userName);
+
+    if (data?.length) {
+      setLoading(false);
+      Alert.alert("username already exists");
+      return undefined;
+    }
+
     const {
       data: { session },
       error,
@@ -47,10 +58,22 @@ export default function Auth({ session }: { session: Session | null }) {
     if (error) Alert.alert(error.message);
     if (!session)
       Alert.alert("Please check your inbox for email verification!");
-    else if (!error) {
-      await supabase
+    if (!error) {
+      //currently looking to sign in with the set details get a session from the sign in and use that to populate the postgres users table then route to the home feed with the user set. Sign up therefore both signs up and signs in at the same time.
+
+      const { data } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password,
+      });
+      console.log("🚀 ~ signUpWithEmail ~ data:", data);
+
+      const addUserName = await supabase
         .from("users")
-        .insert({ wax_id: session.user.id, username: userName });
+        .insert({ wax_id: session?.user.id, username: userName });
+
+      //   router.replace("/(public)/music");
+
+      console.log("🚀 ~ signUpWithEmail ~ addUserName:", addUserName);
     }
     setLoading(false);
   }
@@ -107,13 +130,16 @@ export default function Auth({ session }: { session: Session | null }) {
           />
         </View>
       </TouchableWithoutFeedback>
-      <View className="m-auto mt-4">
-        <FormButton
-          text="Sign in"
-          disabled={loading}
-          onPress={() => signInWithEmail()}
-        />
-      </View>
+      {!isSigningUp && (
+        <View className="m-auto mt-4">
+          <FormButton
+            text="Sign in"
+            disabled={loading}
+            onPress={() => signInWithEmail()}
+          />
+        </View>
+      )}
+
       {!isSigningUp && (
         <View className="m-auto mt-4">
           <FormButton
@@ -123,12 +149,22 @@ export default function Auth({ session }: { session: Session | null }) {
           />
         </View>
       )}
+
       {isSigningUp && (
         <View className="m-auto mt-4">
           <FormButton
             text="Sign up"
             disabled={loading}
             onPress={() => signUpWithEmail()}
+          />
+        </View>
+      )}
+      {isSigningUp && (
+        <View className="m-auto mt-4">
+          <FormButton
+            text="Go Back"
+            disabled={loading}
+            onPress={() => setIsSingingUp(false)}
           />
         </View>
       )}
