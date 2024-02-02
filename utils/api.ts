@@ -3,7 +3,7 @@ import { PostReview } from "../types/front-end";
 import { getSearchedMusic } from "./spotify";
 
 const api = axios.create({
-  baseURL: "https://0okk8avr80.execute-api.eu-west-2.amazonaws.com/prod/api",
+  baseURL: "https://jxkaizmyfxwrhbvundhm.supabase.co/functions/v1",
 });
 
 export const getMusic = async (
