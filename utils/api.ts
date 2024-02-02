@@ -1,6 +1,5 @@
 import axios, { AxiosResponse } from "axios";
 import { PostReview } from "../types/front-end";
-import { getSearchedMusic } from "./spotify";
 
 const api = axios.create({
   baseURL: "https://jxkaizmyfxwrhbvundhm.supabase.co/functions/v1",
