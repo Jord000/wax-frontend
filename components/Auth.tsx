@@ -53,29 +53,18 @@ export default function Auth({ session }: { session: Session | null }) {
     } = await supabase.auth.signUp({
       email: email,
       password: password,
+      options: { data: { username: userName } },
     });
 
     if (error) Alert.alert(error.message);
-    if (!session)
+    if (!session && !error)
       Alert.alert("Please check your inbox for email verification!");
+
     if (!error) {
-      //currently looking to sign in with the set details get a session from the sign in and use that to populate the postgres users table then route to the home feed with the user set. Sign up therefore both signs up and signs in at the same time.
-
-      const { data } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: password,
-      });
-      console.log("🚀 ~ signUpWithEmail ~ data:", data);
-
-      const addUserName = await supabase
-        .from("users")
-        .insert({ wax_id: session?.user.id, username: userName });
-
-      //   router.replace("/(public)/music");
-
-      console.log("🚀 ~ signUpWithEmail ~ addUserName:", addUserName);
+      await supabase.from("users").insert({ username: userName });
+      setIsSingingUp(false);
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   return (
