@@ -88,7 +88,6 @@ export const searchSpotify = async (token: string, q: string, type: string) => {
 export const getSearchedMusic = async (type: string, q: string) => {
   try {
     const { access_token } = await refreshAccessToken();
-
     const matchedMusic = await searchSpotify(
       access_token,
       q as string,

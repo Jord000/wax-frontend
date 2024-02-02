@@ -48,10 +48,9 @@ export const postReview = async (music_id: string, review: PostReview) => {
 
 export const getSpotifyMusic = async (type: string, q: string) => {
   try {
-    const matchedMusic = await getSearchedMusic(type, q);
-
     const response: AxiosResponse = await api.post("/search", {
-      matchedMusic,
+      type,
+      q,
     });
     return response.data.music;
   } catch (err) {
