@@ -1,23 +1,24 @@
 import { Link } from "expo-router";
 import { Pressable, Text, View } from "react-native";
 
-export const ClicketyBoo = ({
-  onPressFunction,
+export const FormButton = ({
+  onPress,
   text,
+  disabled
 }: {
-  onPressFunction: Function;
-  
+  onPress: Function;
+  disabled: boolean;
   text: string;
 }) => {
   return (
     <Pressable
+      disabled={disabled}
       onPress={() => {
-        onPressFunction();
+        onPress();
       }}
       className="bg-black w-40 p-2 flex-row rounded-xl border-x border-b border-stone-500"
     >
       <Text className="text-white text-2xl w-20 ml-[30%]">{text}</Text>
-      
     </Pressable>
   );
 };
