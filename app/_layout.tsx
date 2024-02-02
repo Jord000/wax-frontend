@@ -1,4 +1,4 @@
-import { router, Slot, Stack } from "expo-router";
+import { router, Slot } from "expo-router";
 import { useEffect } from "react";
 
 import { NativeWindStyleSheet } from "nativewind";

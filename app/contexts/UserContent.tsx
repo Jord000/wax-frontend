@@ -1,19 +1,18 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useState } from "react";
 
 interface UserContext {
   user: { username: string };
+  setUser: Function;
 }
 
 export const UserContext = createContext<UserContext>({} as UserContext);
 
-export const useUserData = () => {
-  return useContext(UserContext);
-};
-
 export const UserProvider = ({ children }: { children: any }) => {
-  const [user, setUser] = useState({ username: "night_owl_philosopher" });
+  const [user, setUser] = useState({ username: "" });
 
-  const value = { user };
-
-  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={{ user, setUser }}>
+      {children}
+    </UserContext.Provider>
+  );
 };

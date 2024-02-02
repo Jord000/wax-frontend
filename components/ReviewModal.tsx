@@ -1,11 +1,11 @@
 import Slider from "@react-native-community/slider";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Alert, Modal, Text, Pressable, View, TextInput } from "react-native";
 import { postReview } from "../utils/api";
 import { useGlobalSearchParams } from "expo-router";
-import { useUserData } from "../app/contexts/UserContent";
 import { Review } from "../types/front-end";
 import { AntDesign } from "@expo/vector-icons";
+import { UserContext } from "../app/contexts/UserContent";
 
 interface Iprops {
   setReviews: Function;
@@ -16,10 +16,8 @@ const ReviewModal = (props: Iprops) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [rating, setRating] = useState(0);
-
   const { music_id } = useGlobalSearchParams();
-
-  const { user } = useUserData();
+  const { user } = useContext(UserContext);
 
   const handleTitle = (input: string) => {
     setTitle(input);
@@ -65,7 +63,6 @@ const ReviewModal = (props: Iprops) => {
     }
   };
 
-
   return (
     <View className="bg-[#faf6ff]">
       <Modal
@@ -100,9 +97,7 @@ const ReviewModal = (props: Iprops) => {
                 step={1}
                 value={rating}
               />
-              <Text className="mx-auto text-xl">
-                {rating}
-              </Text>
+              <Text className="mx-auto text-xl">{rating}</Text>
             </View>
 
             <TextInput

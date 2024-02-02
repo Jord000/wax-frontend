@@ -9,16 +9,16 @@ import { UserContext } from "../app/contexts/UserContent";
 import { Session } from "@supabase/supabase-js";
 
 export default function Auth({ session }: { session: Session | null }) {
-  //   const { setUser } = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [isSigningUp, setIsSingingUp] = useState(false);
+  const { setUser } = useContext(UserContext);
 
   async function signInWithEmail() {
     setLoading(true);
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error, data } = await supabase.auth.signInWithPassword({
       email: email,
       password: password,
     });
@@ -27,8 +27,7 @@ export default function Auth({ session }: { session: Session | null }) {
       Alert.alert(error.message);
       setLoading(false);
     } else {
-      //request username based on postgres user.id
-      console.log(session?.user);
+      setUser({ username: data.user.user_metadata.username });
       router.replace("/(public)/music");
       setLoading(false);
     }
