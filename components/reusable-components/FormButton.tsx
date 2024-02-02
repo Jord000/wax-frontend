@@ -16,9 +16,9 @@ export const FormButton = ({
       onPress={() => {
         onPress();
       }}
-      className="bg-black w-40 p-2 flex-row rounded-xl border-x border-b border-stone-500"
+      className="bg-black w-auto min-w-[30%]  p-2 flex-row rounded-xl border-x border-b border-stone-500"
     >
-      <Text className="text-white text-2xl w-20 mx-auto">{text}</Text>
+      <Text className="text-white text-2xl w-auto mx-auto">{text}</Text>
     </Pressable>
   );
 };

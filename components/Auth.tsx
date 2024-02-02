@@ -8,11 +8,13 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { UserContext } from "../app/contexts/UserContent";
 import { Session } from "@supabase/supabase-js";
 
-export default function Auth({ session }: { session: Session }) {
-//   const { setUser } = useContext(UserContext);
+export default function Auth({ session }: { session: Session | null }) {
+  //   const { setUser } = useContext(UserContext);
   const [email, setEmail] = useState("");
+  const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isSigningUp, setIsSingingUp] = useState(false);
 
   async function signInWithEmail() {
     setLoading(true);
@@ -25,8 +27,10 @@ export default function Auth({ session }: { session: Session }) {
       Alert.alert(error.message);
       setLoading(false);
     } else {
-      console.log(session.user);
+      //request username based on postgres user.id
+      console.log(session?.user);
       router.replace("/(public)/music");
+      setLoading(false);
     }
   }
 
@@ -42,9 +46,12 @@ export default function Auth({ session }: { session: Session }) {
 
     if (error) Alert.alert(error.message);
     if (!session)
-    Alert.alert("Please check your inbox for email verification!");
-    
-        // sends username to database
+      Alert.alert("Please check your inbox for email verification!");
+    else if (!error) {
+      await supabase
+        .from("users")
+        .insert({ wax_id: session.user.id, username: userName });
+    }
     setLoading(false);
   }
 
@@ -70,6 +77,21 @@ export default function Auth({ session }: { session: Session }) {
             autoCapitalize={"none"}
           />
         </View>
+        {isSigningUp && (
+          <View className="mx-[2%]">
+            <Input
+              label="username"
+              labelStyle={{ color: "black" }}
+              inputContainerStyle={{ borderColor: "black" }}
+              leftIcon={{ type: "font-awesome", name: "user" }}
+              onChangeText={(text) => setUserName(text)}
+              value={userName}
+              placeholder="myName123"
+              placeholderTextColor={"black"}
+              autoCapitalize={"none"}
+            />
+          </View>
+        )}
         <View className="mx-[2%]">
           <Input
             inputContainerStyle={{ borderColor: "black" }}
@@ -92,13 +114,24 @@ export default function Auth({ session }: { session: Session }) {
           onPress={() => signInWithEmail()}
         />
       </View>
-      <View className="m-auto mt-4">
-        <FormButton
-          text="Sign up"
-          disabled={loading}
-          onPress={() => signUpWithEmail()}
-        />
-      </View>
+      {!isSigningUp && (
+        <View className="m-auto mt-4">
+          <FormButton
+            text="I'd like to sign up!!"
+            disabled={loading}
+            onPress={() => setIsSingingUp(!isSigningUp)}
+          />
+        </View>
+      )}
+      {isSigningUp && (
+        <View className="m-auto mt-4">
+          <FormButton
+            text="Sign up"
+            disabled={loading}
+            onPress={() => signUpWithEmail()}
+          />
+        </View>
+      )}
     </View>
   );
 }
