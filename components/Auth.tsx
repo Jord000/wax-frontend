@@ -1,12 +1,15 @@
-import React, { useState } from "react";
-import { Alert, StyleSheet, View,Keyboard } from "react-native";
+import React, { useContext, useState } from "react";
+import { Alert, View, Keyboard, Image } from "react-native";
 import { supabase } from "../lib/supabase";
-import { Button, Input } from "react-native-elements";
+import { Input } from "react-native-elements";
 import { router } from "expo-router";
 import { FormButton } from "./reusable-components/FormButton";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { UserContext } from "../app/contexts/UserContent";
+import { Session } from "@supabase/supabase-js";
 
-export default function Auth() {
+export default function Auth({ session }: { session: Session }) {
+//   const { setUser } = useContext(UserContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -22,6 +25,7 @@ export default function Auth() {
       Alert.alert(error.message);
       setLoading(false);
     } else {
+      console.log(session.user);
       router.replace("/(public)/music");
     }
   }
@@ -38,31 +42,45 @@ export default function Auth() {
 
     if (error) Alert.alert(error.message);
     if (!session)
-      Alert.alert("Please check your inbox for email verification!");
+    Alert.alert("Please check your inbox for email verification!");
+    
+        // sends username to database
     setLoading(false);
   }
 
   return (
-    <View >
+    <View>
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <View >
+        <View className="w-full h-1/4 justify-center items-center mt-14 mb-8">
+          <Image
+            source={require("../assets/images/icon.png")}
+            resizeMode="center"
+          />
+        </View>
+        <View className="mx-[2%]">
           <Input
             label="Email"
+            labelStyle={{ color: "black" }}
+            inputContainerStyle={{ borderColor: "black" }}
             leftIcon={{ type: "font-awesome", name: "envelope" }}
             onChangeText={(text) => setEmail(text)}
             value={email}
             placeholder="email@address.com"
+            placeholderTextColor={"black"}
             autoCapitalize={"none"}
           />
         </View>
-        <View >
+        <View className="mx-[2%]">
           <Input
+            inputContainerStyle={{ borderColor: "black" }}
             label="Password"
+            labelStyle={{ color: "black" }}
             leftIcon={{ type: "font-awesome", name: "lock" }}
             onChangeText={(text) => setPassword(text)}
             value={password}
             secureTextEntry={true}
             placeholder="Password"
+            placeholderTextColor={"black"}
             autoCapitalize={"none"}
           />
         </View>
@@ -84,33 +102,3 @@ export default function Auth() {
     </View>
   );
 }
-
-//
-//       <View className="w-full h-1/4 justify-center items-center mt-14">
-//         <Image
-//           source={require("../../assets/images/icon.png")}
-//           resizeMode="center"
-//         />
-//       </View>
-//       <View className="mt-16 p-2">
-//         <FormFieldText
-//           label="Username"
-//           setText={setUsername}
-//           isRequired={true}
-//           autoComplete="username"
-//           enterKeyHint="next"
-//           onSubmitFunction={() => {}}
-//         />
-
-//         <FormFieldText
-//           label="Password"
-//           setText={setPassword}
-//           isRequired={true}
-//           autoComplete="current-password"
-//           enterKeyHint="go"
-//           onSubmitFunction={() => router.replace("/(public)/music")}
-//         />
-//       </View>
-//
-
-// );

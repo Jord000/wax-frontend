@@ -18,7 +18,7 @@ export const FormButton = ({
       }}
       className="bg-black w-40 p-2 flex-row rounded-xl border-x border-b border-stone-500"
     >
-      <Text className="text-white text-2xl w-20 ml-[30%]">{text}</Text>
+      <Text className="text-white text-2xl w-20 mx-auto">{text}</Text>
     </Pressable>
   );
 };
