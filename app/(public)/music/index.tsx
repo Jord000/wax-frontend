@@ -17,7 +17,6 @@ import { Ionicons } from "@expo/vector-icons";
 import SearchFilterBar from "../../../components/SearchFilterBar";
 
 const Albums = () => {
-  const [buttonColor, setButtonColor] = useState("bg-[#15BA46]");
   const [music, setMusic] = useState<Music[]>([]);
   const [dropDVis, setDropDVis] = useState(false);
   const [isSpotifySearched, setIsSpotifySearched] = useState(false);
@@ -55,15 +54,15 @@ const Albums = () => {
       >
         <View className="w-full h-[9%] flex-row items-center justify-around mt-[4%] bg-[#B56DE4] ">
           <Pressable
-            className={`items-center mx-6 p-2 ${buttonColor} rounded-md bg-[#B56DE4]`}
+            className={`items-center mx-6 p-2`}
             onPressIn={() => {
-              setButtonColor("bg-green-900");
+              // setButtonColor("bg-green-900");
               setDropDVis(!dropDVis);
               setIsSpotifySearched(false);
               setSearchText("");
             }}
             onPressOut={() => {
-              setButtonColor("bg-[#15BA46]");
+              // setButtonColor("bg-[#15BA46]");
             }}
           >
             <Ionicons
@@ -80,7 +79,7 @@ const Albums = () => {
           />
           <Pressable
             onPress={() => router.push("/(public)/user/")}
-            className={`items-center mx-6 p-2 ${buttonColor}`}
+            className={`items-center mx-6 p-2`}
           >
             <Ionicons
               name="person-outline"
