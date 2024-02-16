@@ -65,3 +65,12 @@ export const deleteReview = async (review_id: number) => {
     console.log("🚀 ~ file: api.ts:51 ~ deleteReview ~ err:", err);
   }
 };
+
+export const getFollows = async (username: string) => {
+  try {
+    const response: AxiosResponse = await api.get(`/users/${username}`);
+    return response.data;
+  } catch (err) {
+    console.log("🚀 ~ file: api.ts:51 ~ deleteReview ~ err:", err);
+  }
+};

@@ -80,7 +80,7 @@ const Albums = () => {
             resizeMode="center"
           />
           <Pressable
-            onPress={() => router.push(`/(public)/user/${user.username}`)}
+            onPress={() => router.push(`/(public)/users`)}
             className={`items-center mx-6 p-2`}
           >
             <Ionicons
