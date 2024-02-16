@@ -10,7 +10,7 @@ export default () => {
                 {headerShown: false, title: "MainFeed"}
             } />
             <Stack.Screen name="user" options={
-                {headerShown: true, title: "User"}
+                {headerShown: false, title: "User"}
             } />
         </Stack>
      );
