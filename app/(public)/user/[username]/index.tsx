@@ -7,14 +7,14 @@ const UserPage = () => {
   const { user } = useContext(UserContext);
   const { username } = useGlobalSearchParams();
 
-  return
-  
-  <>
-    <Text>Username: {username }</Text>;
-    <Text>Logged in user: {user.username == username ? "True" : "False" }</Text>
-  </>
-  
-  
+  return (
+    <>
+      <Text>Username: {username}</Text>;
+      <Text>
+        Logged in user: {user.username == username ? "True" : "False"}
+      </Text>
+    </>
+  );
 };
 
 export default UserPage;
