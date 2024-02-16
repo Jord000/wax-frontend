@@ -53,7 +53,7 @@ const Albums = () => {
           setDropDVis(false);
         }}
       >
-        <View className="w-full h-[9%] flex-row items-center justify-start mt-[4%] bg-[#B56DE4] ">
+        <View className="w-full h-[9%] flex-row items-center justify-around mt-[4%] bg-[#B56DE4] ">
           <Pressable
             className={`items-center mx-6 p-2 ${buttonColor} rounded-md bg-[#B56DE4]`}
             onPressIn={() => {
@@ -78,10 +78,15 @@ const Albums = () => {
             className="h-full w-[50%]"
             resizeMode="center"
           />
-          <Pressable onPress={() => router.push("/(public)/user/")}>
+          <Pressable
+            onPress={() => router.push("/(public)/user/")}
+            className={`items-center mx-6 p-2 ${buttonColor}`}
+          >
             <Ionicons
               name="person-outline"
-              className={`items-center mx-6 p-2 ${buttonColor}`}
+              size={30}
+              color="black"
+              className="m-4"
             />
           </Pressable>
         </View>
