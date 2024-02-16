@@ -79,7 +79,10 @@ const Albums = () => {
             resizeMode="center"
           />
           <Pressable onPress={() => router.push("/(public)/user/")}>
-            <Ionicons name="person-outline" />
+            <Ionicons
+              name="person-outline"
+              className={`items-center mx-6 p-2 ${buttonColor}`}
+            />
           </Pressable>
         </View>
       </TouchableWithoutFeedback>

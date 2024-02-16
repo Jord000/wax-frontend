@@ -5,7 +5,7 @@ export default () => {
     <Stack>
       <Stack.Screen
         name="index"
-        options={{ headerShown: false, title: "Back to Feed" }}
+        options={{ headerShown: true, title: "Back to Feed" }}
       />
     </Stack>
   );
