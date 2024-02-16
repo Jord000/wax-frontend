@@ -9,6 +9,9 @@ export default () => {
             <Stack.Screen name="music" options={
                 {headerShown: false, title: "MainFeed"}
             } />
+            <Stack.Screen name="user" options={
+                {headerShown: true, title: "User"}
+            } />
         </Stack>
      );
 }

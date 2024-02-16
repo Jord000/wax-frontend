@@ -5,7 +5,7 @@ import { postReview } from "../utils/api";
 import { useGlobalSearchParams } from "expo-router";
 import { Review } from "../types/front-end";
 import { AntDesign } from "@expo/vector-icons";
-import { UserContext } from "../app/contexts/UserContent";
+import { UserContext } from "../contexts/UserContent";
 
 interface Iprops {
   setReviews: Function;

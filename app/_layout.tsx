@@ -2,7 +2,7 @@ import { router, Slot } from "expo-router";
 import { useEffect } from "react";
 
 import { NativeWindStyleSheet } from "nativewind";
-import { UserProvider } from "./contexts/UserContent";
+import { UserProvider } from "../contexts/UserContent";
 
 NativeWindStyleSheet.setOutput({ default: "native" });
 

@@ -5,7 +5,7 @@ import { Input } from "react-native-elements";
 import { router } from "expo-router";
 import { FormButton } from "./reusable-components/FormButton";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import { UserContext } from "../app/contexts/UserContent";
+import { UserContext } from "../contexts/UserContent";
 import { Session } from "@supabase/supabase-js";
 
 export default function Auth({ session }: { session: Session | null }) {

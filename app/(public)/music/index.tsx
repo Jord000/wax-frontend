@@ -78,6 +78,9 @@ const Albums = () => {
             className="h-full w-[50%]"
             resizeMode="center"
           />
+          <Pressable onPress={() => router.push("/(public)/user/")}>
+            <Ionicons name="person-outline" />
+          </Pressable>
         </View>
       </TouchableWithoutFeedback>
       {dropDVis && (
