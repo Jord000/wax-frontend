@@ -55,9 +55,14 @@ export default function Auth({ session }: { session: Session | null }) {
       options: { data: { username: userName } },
     });
 
-    if (error) Alert.alert(error.message);
-    if (!session && !error)
+    if (error) {
+      Alert.alert(error.message);
+      setLoading(false);
+    }
+    if (!session && !error) {
       Alert.alert("Please check your inbox for email verification!");
+      setLoading(false);
+    }
 
     if (!error) {
       await supabase.from("users").insert({ username: userName });
