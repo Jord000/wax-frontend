@@ -6,6 +6,7 @@ import { Review } from "../types/front-end";
 import ReviewModal from "./ReviewModal";
 import { UserContext } from "../contexts/UserContent";
 import { Ionicons } from "@expo/vector-icons";
+import UserItem from "./UserItem";
 
 export const Reviews = () => {
   const { music_id } = useGlobalSearchParams();
@@ -36,9 +37,12 @@ export const Reviews = () => {
           .map((review: Review) => {
             return (
               <View key={Math.random()} className="my-2 mx-3 bg-slate-50 p-2">
-                <Text className="py-1 font-semibold ">
-                  {review.username} : Rating: {review.rating}
-                </Text>
+                <View className="flex-row">
+                <UserItem username={review.username} />
+                  <Text className="py-1 font-semibold align-middle">
+                    : Rating: {review.rating}
+                  </Text>
+                </View>
                 {user.username === review.username ? (
                   <Pressable
                     onPress={() => handleDelete(review.review_id as number)}

@@ -71,6 +71,15 @@ export const getFollows = async (username: string) => {
     const response: AxiosResponse = await api.get(`/users/${username}`);
     return response.data;
   } catch (err) {
-    console.log("🚀 ~ file: api.ts:51 ~ deleteReview ~ err:", err);
+    console.log("🚀 ~ getFollows ~ err:", err)
+    
   }
 };
+
+export const patchFollows = async (loggedInUser: string, newFollow: string) => {
+  try {
+    const response: AxiosResponse = await api.patch(`/users/${loggedInUser}`,{new_follow: newFollow});
+  } catch (err) {
+  console.log("🚀 ~ patchFollows ~ err:", err)
+  }
+}

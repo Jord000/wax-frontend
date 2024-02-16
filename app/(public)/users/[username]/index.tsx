@@ -1,11 +1,13 @@
-import { Text, View } from "react-native";
-import {  useEffect, useState } from "react";
+import { Pressable, Text, View } from "react-native";
+import { useContext, useEffect, useState } from "react";
 import { useGlobalSearchParams } from "expo-router";
-import { getFollows } from "../../../../utils/api";
+import { getFollows, patchFollows } from "../../../../utils/api";
 import UserItem from "../../../../components/UserItem";
+import { UserContext } from "../../../../contexts/UserContent";
 
 const UserPage = () => {
-  const { username } = useGlobalSearchParams();
+  const { user } = useContext(UserContext);
+  const { username  } = useGlobalSearchParams();
   const [connections, setConnections] = useState([]);
 
   useEffect(() => {
@@ -22,7 +24,9 @@ const UserPage = () => {
   return (
     <View>
       <Text>Username: {username}</Text>
-
+      <Pressable onPress={() => patchFollows(user.username, username as string)}>
+        <Text>Follow</Text>
+      </Pressable>
       {connections.map((user) => (
         <UserItem key={user} username={user} />
       ))}
