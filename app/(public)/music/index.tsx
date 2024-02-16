@@ -9,12 +9,13 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getMusic } from "../../../utils/api";
 import { Music } from "../../../types/front-end";
 import SearchDropDown from "../../../components/SearchDropDown";
 import { Ionicons } from "@expo/vector-icons";
 import SearchFilterBar from "../../../components/SearchFilterBar";
+import { UserContext } from "../../../contexts/UserContent";
 
 const Albums = () => {
   const [music, setMusic] = useState<Music[]>([]);
@@ -23,6 +24,7 @@ const Albums = () => {
   const [searchedUpMusic, setSearchedUpMusic] = useState<Music[]>([]);
   const [searchText, setSearchText] = useState(" ");
   const [isLoading, setisLoading] = useState(true);
+  const { user} = useContext(UserContext)
 
   useEffect(() => {
     const doThis = async () => {
@@ -78,7 +80,7 @@ const Albums = () => {
             resizeMode="center"
           />
           <Pressable
-            onPress={() => router.push("/(public)/user/")}
+            onPress={() => router.push(`/(public)/user/${user.username}`)}
             className={`items-center mx-6 p-2`}
           >
             <Ionicons
