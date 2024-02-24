@@ -48,7 +48,7 @@ const Albums = () => {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className="h-[100%]">
       <TouchableWithoutFeedback
         onPress={() => {
           setDropDVis(false);
@@ -111,7 +111,7 @@ const Albums = () => {
       )}
       {isSpotifySearched && Array.isArray(searchedUpMusic) ? (
         <ScrollView>
-          <View className="flex flex-row flex-wrap justify-betweenbg-pink-50 mb-20 mt-5">
+          <View className="flex flex-row flex-wrap justify-betweenbg-pink-50 mb-20 mt-5 h-[85%]">
             {searchedUpMusic.map((track) => (
               <Pressable
                 key={track.music_id}
@@ -137,7 +137,7 @@ const Albums = () => {
         </ScrollView>
       ) : (
         <ScrollView>
-          <View className="flex flex-row flex-wrap justify-between bg-white">
+          <View className="flex flex-row flex-wrap justify-between bg-white min-h-fit">
             {music.map((track) => (
               <Pressable
                 key={track.music_id}
