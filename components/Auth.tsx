@@ -7,6 +7,7 @@ import { FormButton } from "./reusable-components/FormButton";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { UserContext } from "../contexts/UserContent";
 import { Session } from "@supabase/supabase-js";
+import { getFollows } from "../utils/api";
 
 export default function Auth({ session }: { session: Session | null }) {
   const [email, setEmail] = useState("");
@@ -14,7 +15,7 @@ export default function Auth({ session }: { session: Session | null }) {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [isSigningUp, setIsSingingUp] = useState(false);
-  const { setUser } = useContext(UserContext);
+  const { user,setUser } = useContext(UserContext);
 
   async function signInWithEmail() {
     setLoading(true);
@@ -27,7 +28,9 @@ export default function Auth({ session }: { session: Session | null }) {
       Alert.alert(error.message);
       setLoading(false);
     } else {
-      setUser({ username: data.user.user_metadata.username });
+      const username = data.user.user_metadata.username
+      const { following } = await getFollows(username as string);
+      setUser({ username , following});
       router.replace("/(public)/music");
       setLoading(false);
     }

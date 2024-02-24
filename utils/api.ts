@@ -76,9 +76,9 @@ export const getFollows = async (username: string) => {
   }
 };
 
-export const patchFollows = async (loggedInUser: string, newFollow: string) => {
+export const patchFollows = async (loggedInUser: string, newFollow: string, followRequest: boolean) => {
   try {
-    const response: AxiosResponse = await api.patch(`/users/${loggedInUser}`,{new_follow: newFollow});
+    const response: AxiosResponse = await api.patch(`/users/${loggedInUser}`,{new_follow: newFollow, follow_request: followRequest});
   } catch (err) {
   console.log("🚀 ~ patchFollows ~ err:", err)
   }
