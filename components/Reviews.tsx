@@ -38,7 +38,7 @@ export const Reviews = () => {
             return (
               <View key={Math.random()} className="my-2 mx-3 bg-slate-50 p-2">
                 <View className="flex-row">
-                <UserItem username={review.username} />
+                <UserItem username={review.username} textModifier=""/>
                   <Text className="py-1 font-semibold align-middle">
                     : Rating: {review.rating}
                   </Text>
