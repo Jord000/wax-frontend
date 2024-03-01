@@ -6,16 +6,16 @@ import {
   Text,
   TouchableWithoutFeedback,
   View,
+  RefreshControl,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { getMusic } from "../../../utils/api";
 import { Music } from "../../../types/front-end";
 import SearchDropDown from "../../../components/SearchDropDown";
 import { Ionicons } from "@expo/vector-icons";
 import SearchFilterBar from "../../../components/SearchFilterBar";
-import { UserContext } from "../../../contexts/UserContent";
 
 const Albums = () => {
   const [music, setMusic] = useState<Music[]>([]);
@@ -24,7 +24,17 @@ const Albums = () => {
   const [searchedUpMusic, setSearchedUpMusic] = useState<Music[]>([]);
   const [searchText, setSearchText] = useState(" ");
   const [isLoading, setisLoading] = useState(true);
-  const { user} = useContext(UserContext)
+  const [buttonColor, setButtonColor] = useState("");
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const onRefresh = useCallback(() => {
+    setIsRefreshing(true);
+    setTimeout(async () => {
+      const musicData = await getMusic();
+      setMusic(musicData);
+      setIsRefreshing(false);
+    }, 2000);
+  }, []);
 
   useEffect(() => {
     const doThis = async () => {
@@ -56,15 +66,15 @@ const Albums = () => {
       >
         <View className="w-full h-[9%] flex-row items-center justify-around mt-[4%] bg-[#B56DE4] ">
           <Pressable
-            className={`items-center mx-6 p-2`}
+            className={`items-center mx-6 p-2 ${buttonColor} rounded-md`}
             onPressIn={() => {
-              // setButtonColor("bg-green-900");
+              setButtonColor("bg-[#9058B5]");
               setDropDVis(!dropDVis);
               setIsSpotifySearched(false);
               setSearchText("");
             }}
             onPressOut={() => {
-              // setButtonColor("bg-[#15BA46]");
+              setButtonColor("");
             }}
           >
             <Ionicons
@@ -110,7 +120,11 @@ const Albums = () => {
         />
       )}
       {isSpotifySearched && Array.isArray(searchedUpMusic) ? (
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+          }
+        >
           <View className="flex flex-row flex-wrap justify-betweenbg-pink-50 mb-20 mt-5 h-[85%]">
             {searchedUpMusic.map((track) => (
               <Pressable
@@ -136,7 +150,11 @@ const Albums = () => {
           </View>
         </ScrollView>
       ) : (
-        <ScrollView>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
+          }
+        >
           <View className="flex flex-row flex-wrap justify-between bg-white min-h-fit">
             {music.map((track) => (
               <Pressable

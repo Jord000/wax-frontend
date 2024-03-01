@@ -1,10 +1,6 @@
 import React from "react";
-import { Image, Keyboard, View, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FormFieldText } from "../../components/reusable-components/FormFieldText";
 import { useState, useEffect } from "react";
-import { router } from "expo-router";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import Auth from "../../components/Auth";
 
 import "react-native-url-polyfill/auto";

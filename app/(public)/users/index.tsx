@@ -14,8 +14,8 @@ const CurrentUser = () => {
       <Text className="p-4 font-bold text-lg">Hello {user.username} !</Text>
       <Text className="p-4">You are folowing :</Text>
       {user.following.map((user) => (
-        <View className="px-4">
-        <UserItem key={user} username={user} textModifier={textModifier}/>
+        <View key={user} className="px-4">
+        <UserItem  username={user} textModifier={textModifier}/>
         </View>
       ))}
     </View>
