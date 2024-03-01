@@ -22,9 +22,10 @@ export const getMusic = async (
   }
 };
 
-export const getReviews = async (music_id?: string) => {
+export const getReviews = async (music_id?: string, username?: string) => {
+ 
   try {
-    const response: AxiosResponse = await api.get(`/reviews/${music_id}`);
+    const response: AxiosResponse = await api.get(`/reviews/${music_id}/${username}`);
 
     return response.data.reviews;
   } catch (err) {
