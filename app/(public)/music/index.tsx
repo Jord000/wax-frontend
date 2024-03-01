@@ -9,21 +9,22 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getMusic } from "../../../utils/api";
 import { Music } from "../../../types/front-end";
 import SearchDropDown from "../../../components/SearchDropDown";
 import { Ionicons } from "@expo/vector-icons";
 import SearchFilterBar from "../../../components/SearchFilterBar";
+import { UserContext } from "../../../contexts/UserContent";
 
 const Albums = () => {
-  const [buttonColor, setButtonColor] = useState("bg-[#15BA46]");
   const [music, setMusic] = useState<Music[]>([]);
   const [dropDVis, setDropDVis] = useState(false);
   const [isSpotifySearched, setIsSpotifySearched] = useState(false);
   const [searchedUpMusic, setSearchedUpMusic] = useState<Music[]>([]);
   const [searchText, setSearchText] = useState(" ");
   const [isLoading, setisLoading] = useState(true);
+  const { user} = useContext(UserContext)
 
   useEffect(() => {
     const doThis = async () => {
@@ -47,23 +48,23 @@ const Albums = () => {
   }
 
   return (
-    <SafeAreaView>
+    <SafeAreaView className="h-[100%]">
       <TouchableWithoutFeedback
         onPress={() => {
           setDropDVis(false);
         }}
       >
-        <View className="w-full h-[9%] flex-row items-center justify-start mt-[4%] bg-[#B56DE4] ">
+        <View className="w-full h-[9%] flex-row items-center justify-around mt-[4%] bg-[#B56DE4] ">
           <Pressable
-            className={`items-center mx-6 p-2 ${buttonColor} rounded-md bg-[#B56DE4]`}
+            className={`items-center mx-6 p-2`}
             onPressIn={() => {
-              setButtonColor("bg-green-900");
+              // setButtonColor("bg-green-900");
               setDropDVis(!dropDVis);
               setIsSpotifySearched(false);
               setSearchText("");
             }}
             onPressOut={() => {
-              setButtonColor("bg-[#15BA46]");
+              // setButtonColor("bg-[#15BA46]");
             }}
           >
             <Ionicons
@@ -78,6 +79,17 @@ const Albums = () => {
             className="h-full w-[50%]"
             resizeMode="center"
           />
+          <Pressable
+            onPress={() => router.push(`/(public)/users`)}
+            className={`items-center mx-6 p-2`}
+          >
+            <Ionicons
+              name="person-outline"
+              size={30}
+              color="black"
+              className="m-4"
+            />
+          </Pressable>
         </View>
       </TouchableWithoutFeedback>
       {dropDVis && (
@@ -99,7 +111,7 @@ const Albums = () => {
       )}
       {isSpotifySearched && Array.isArray(searchedUpMusic) ? (
         <ScrollView>
-          <View className="flex flex-row flex-wrap justify-betweenbg-pink-50 mb-20 mt-5">
+          <View className="flex flex-row flex-wrap justify-betweenbg-pink-50 mb-20 mt-5 h-[85%]">
             {searchedUpMusic.map((track) => (
               <Pressable
                 key={track.music_id}
@@ -125,7 +137,7 @@ const Albums = () => {
         </ScrollView>
       ) : (
         <ScrollView>
-          <View className="flex flex-row flex-wrap justify-between bg-white">
+          <View className="flex flex-row flex-wrap justify-between bg-white min-h-fit">
             {music.map((track) => (
               <Pressable
                 key={track.music_id}

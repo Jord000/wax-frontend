@@ -65,3 +65,21 @@ export const deleteReview = async (review_id: number) => {
     console.log("🚀 ~ file: api.ts:51 ~ deleteReview ~ err:", err);
   }
 };
+
+export const getFollows = async (username: string) => {
+  try {
+    const response: AxiosResponse = await api.get(`/users/${username}`);
+    return response.data;
+  } catch (err) {
+    console.log("🚀 ~ getFollows ~ err:", err)
+    
+  }
+};
+
+export const patchFollows = async (loggedInUser: string, newFollow: string, followRequest: boolean) => {
+  try {
+    const response: AxiosResponse = await api.patch(`/users/${loggedInUser}`,{new_follow: newFollow, follow_request: followRequest});
+  } catch (err) {
+  console.log("🚀 ~ patchFollows ~ err:", err)
+  }
+}
