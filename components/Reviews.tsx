@@ -15,32 +15,39 @@ export const Reviews = () => {
     globalReviews: Review[];
   }>();
   const { user } = useContext(UserContext);
+  const [isReviewable, setIsReviewable] = useState(false);
 
   useEffect(() => {
-    const doThis = async () => {
+    (async () => {
       const reviewData = await getReviews(music_id as string, user.username);
       setReviews(reviewData);
-      console.log(reviewData);
-    };
-    doThis();
-  }, []);
+    })();
+  }, [isReviewable]);
 
   return (
     <>
       {reviews?.userReview ? (
         <View>
           <Text className="mt-10 text-center font-bold text-lg">My Review</Text>
-          <SingleReview review={reviews?.userReview} />
+          <SingleReview
+            review={reviews?.userReview}
+            setIsReviewable={setIsReviewable}
+          />
         </View>
       ) : (
         <ReviewModal setReviews={setReviews} />
       )}
       <View className="bg-[#faf6ff]">
         <Text className="mt-2 text-center font-bold text-lg">REVIEWS</Text>
-        {reviews?.globalReviews.length ? reviews?.globalReviews.map((review: Review) => {
-          return <SingleReview review={review} />;
-        }): <Text className="mx-auto mt-4 mb-10">Nothing to see here yet... be the first to have your say!</Text>
-      }
+        {reviews?.globalReviews.length ? (
+          reviews?.globalReviews.map((review: Review) => {
+            return <SingleReview review={review} setIsReviewable={setIsReviewable} />;
+          })
+        ) : (
+          <Text className="mx-auto mt-4 mb-10">
+            Nothing to see here yet... be the first to have your say!
+          </Text>
+        )}
       </View>
     </>
   );
