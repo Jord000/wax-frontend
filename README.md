@@ -1,11 +1,9 @@
-
-
 # Wax
 
 Welcome to Wax, a social media platform for music enthusiasts! This React Native app, built with Expo and styled with Nativewind, allows users to explore, rate, and review songs and albums from around the world.
 
 <div align="center">
-  <img src="https://github.com/royr5/gatefold-frontend/assets/73461138/74a4741f-35bd-41e3-bd1f-5ebb644ae361" alt="RPReplay_Final1704990111">
+  <img src="https://github.com/royr5/gatefold-frontend/assets/73461138/74a4741f-35bd-41e3-bd1f-5ebb644ae361" alt="Wax demo animation">
 </div>
 
 
@@ -14,7 +12,7 @@ Welcome to Wax, a social media platform for music enthusiasts! This React Native
 Clone the project
 
 ```bash
-  git clone https://github.com/Jord000/wax-frontend
+  git clone https://github.com/GatefoldWax/wax-frontend.git
 ```
 
 Go to the project directory
@@ -37,7 +35,7 @@ Run the app
 
 ## Backend Repository
 
-The backend code for this project can be found in the https://github.com/Jord000/wax-api
+The backend code for this project can be found in the https://github.com/GatefoldWax/wax-supabase.git GitHub repo.
 
 ## Features
 
