@@ -64,7 +64,7 @@ const Albums = () => {
           setDropDVis(false);
         }}
       >
-        <View className="w-full h-[9%] flex-row items-center justify-around mt-[4%] bg-[#B56DE4] ">
+        <View className="w-full h-24 flex-row items-center justify-around bg-[#B56DE4] ">
           <Pressable
             className={`items-center mx-6 p-2 ${buttonColor} rounded-md`}
             onPressIn={() => {
