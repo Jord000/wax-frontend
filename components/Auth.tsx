@@ -15,7 +15,7 @@ export default function Auth({ session }: { session: Session | null }) {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [isSigningUp, setIsSingingUp] = useState(false);
-  const { user,setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   async function signInWithEmail() {
     setLoading(true);
@@ -28,9 +28,9 @@ export default function Auth({ session }: { session: Session | null }) {
       Alert.alert(error.message);
       setLoading(false);
     } else {
-      const username = data.user.user_metadata.username
+      const username = data.user.user_metadata.username;
       const { following } = await getFollows(username as string);
-      setUser({ username , following});
+      setUser({ username, following });
       router.replace("/(public)/music");
       setLoading(false);
     }
