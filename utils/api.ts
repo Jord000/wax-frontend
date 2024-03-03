@@ -86,9 +86,10 @@ export const deleteReview = async (review_id: number) => {
 };
 
 export const getFollows = async (username: string) => {
+  if (!username) throw new Error("username is required");
   try {
     const response: AxiosResponse = await api.get(`/users/${username}`, {
-      headers: { Authorization: `Bearer ${await refreshSession()}` },
+      headers: { Authorization: `Bearer ${ await refreshSession()}` },
     });
     return response.data;
   } catch (err) {

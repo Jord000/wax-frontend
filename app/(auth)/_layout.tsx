@@ -5,7 +5,12 @@ export default () => {
     <Stack>
       <Stack.Screen
         name="index"
-        options={{ headerShown: false, title: "Gatefold", statusBarColor: "black"}}
+        options={{
+          headerShown: false,
+          title: "Gatefold",
+          statusBarStyle: "dark",
+          statusBarColor: "#B56DE4",
+        }}
       />
       <Stack.Screen
         name="music"

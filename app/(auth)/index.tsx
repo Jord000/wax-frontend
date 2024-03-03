@@ -18,36 +18,47 @@ const Welcome = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-setTimeout(() => {
-  setLoading(false);
-}, 1500)
-
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
+    setTimeout(() => {
+      setLoading(false);
+    }, 2500);
 
     (async () => {
       const {
         data: { session },
       } = await supabase.auth.getSession();
+      const username = await AsyncStorage.getItem("username");
 
-      if (session) {
-        const username = await AsyncStorage.getItem("username");
-        const { following } = await getFollows(username as string);
-        setUser({ username, following });
-        setSession(session);
-        router.replace("/(auth)/music");
-      } else setSession(session);
+      if (session && username) {
+        try {
+          const { following } = await getFollows(username as string);
+          setUser({ username, following });
+          setSession(session);
+          router.replace("/(auth)/music");
+        } catch {
+          setLoading(false);
+        }
+      }
+
+      setSession(session);
     })();
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
   }, []);
 
-   return !session ? (
+  return (
     <SafeAreaView className="bg-[#B56DE4] h-full">
-      <Auth session={session!} />
-    </SafeAreaView>
-  ) : (
-    <SafeAreaView className="bg-[#B56DE4] h-full">
-      <ActivityIndicator  />
+      {loading ? (
+        <ActivityIndicator
+          size="large"
+          style={{ transform: [{ scaleX: 2 }, { scaleY: 2 }] }}
+          color="#FFFFFF"
+          className="m-auto"
+        />
+      ) : (
+        <Auth session={session!} />
+      )}
     </SafeAreaView>
   );
 };
