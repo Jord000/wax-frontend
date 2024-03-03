@@ -10,38 +10,44 @@ import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getFollows } from "../../utils/api";
 import { UserContext } from "../../contexts/UserContent";
+import { ActivityIndicator } from "react-native";
 
 const Welcome = () => {
   const [session, setSession] = useState<Session | null>(null);
   const { setUser } = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    restoreSession();
-
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    });
+setTimeout(() => {
+  setLoading(false);
+}, 1500)
 
     supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
+
+    (async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (session) {
+        const username = await AsyncStorage.getItem("username");
+        const { following } = await getFollows(username as string);
+        setUser({ username, following });
+        setSession(session);
+        router.replace("/(auth)/music");
+      } else setSession(session);
+    })();
   }, []);
 
-  const restoreSession = async () => {
-    const { data } = await supabase.auth.getSession();
-    const username = await AsyncStorage.getItem("username");
-
-    if (data) {
-      const { following } = await getFollows(username as string);
-      setUser({ username, following });
-      setSession(data.session);
-      router.replace("/(public)/music");
-    }
-  };
-
-  return (
+   return !session ? (
     <SafeAreaView className="bg-[#B56DE4] h-full">
       <Auth session={session!} />
+    </SafeAreaView>
+  ) : (
+    <SafeAreaView className="bg-[#B56DE4] h-full">
+      <ActivityIndicator  />
     </SafeAreaView>
   );
 };

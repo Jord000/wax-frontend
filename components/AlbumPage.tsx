@@ -13,9 +13,8 @@ const AlbumPage = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [sound, setSound] = useState<Audio.Sound | undefined>();
 
-
   useEffect(() => {
-    const doThis = async () => {
+    (async () => {
       const musicData = await getMusic(music_id as string, "true");
       setMusicContent(musicData);
 
@@ -25,18 +24,15 @@ const AlbumPage = () => {
       } else if (score <= 4) {
         setRatingColor("text-red-700");
       }
-    };
-    doThis();
+    })();
   }, []);
 
   const handlePlay = async () => {
-
     await playPreview(!isPlaying);
   };
 
   const playPreview = async (bool: boolean) => {
     if (typeof musicContent?.preview === "string" && bool) {
-
       const { sound } = await Audio.Sound.createAsync(
         {
           uri: musicContent.preview,
@@ -47,7 +43,6 @@ const AlbumPage = () => {
 
       await sound.playAsync();
     } else if (typeof musicContent?.preview === "string" && !bool && sound) {
-
       await sound.unloadAsync();
     }
     setIsPlaying((current) => {
@@ -79,9 +74,9 @@ const AlbumPage = () => {
         className="h-[350] w-[350] rounded-md"
       />
       {musicContent?.preview && (
-        <Pressable onPress={handlePlay}>
-          {!isPlaying && <Ionicons name='play' size={30} color={"black"} />}
-          {isPlaying && <Ionicons name='pause' size={30} color={"black"} />}
+        <Pressable onPress={handlePlay} className="mt-6">
+          {!isPlaying && <Ionicons name="play" size={50} color={"black"} />}
+          {isPlaying && <Ionicons name="pause" size={50} color={"black"} />}
         </Pressable>
       )}
       {!musicContent?.avg_rating && (

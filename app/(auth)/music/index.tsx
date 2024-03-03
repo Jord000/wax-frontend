@@ -90,7 +90,7 @@ const Albums = () => {
             resizeMode="center"
           />
           <Pressable
-            onPress={() => router.push(`/(public)/users`)}
+            onPress={() => router.push(`/(auth)/users`)}
             className={`items-center mx-6 p-2`}
           >
             <Ionicons
@@ -129,7 +129,7 @@ const Albums = () => {
             {searchedUpMusic.map((track) => (
               <Pressable
                 key={track.music_id}
-                onPress={() => router.push(`/(public)/music/${track.music_id}`)}
+                onPress={() => router.push(`/(auth)/music/${track.music_id}`)}
                 className="w-1/2 h-auto"
               >
                 <View
@@ -159,7 +159,7 @@ const Albums = () => {
             {music.map((track) => (
               <Pressable
                 key={track.music_id}
-                onPress={() => router.push(`/(public)/music/${track.music_id}`)}
+                onPress={() => router.push(`/(auth)/music/${track.music_id}`)}
                 className="w-1/2 h-auto"
               >
                 <View

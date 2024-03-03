@@ -33,7 +33,7 @@ export default function Auth({ session }: { session: Session | null }) {
       const { following } = await getFollows(username as string);
       setUser({ username, following });
       AsyncStorage.setItem("username", username as string);
-      router.replace("/(public)/music");
+      router.replace("/(auth)/music");
       setLoading(false);
     }
   }
