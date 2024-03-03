@@ -41,7 +41,13 @@ export const Reviews = () => {
         <Text className="mt-2 text-center font-bold text-lg">REVIEWS</Text>
         {reviews?.globalReviews.length ? (
           reviews?.globalReviews.map((review: Review) => {
-            return <SingleReview review={review} setIsReviewable={setIsReviewable} />;
+            return (
+              <SingleReview
+                key={review.review_id}
+                review={review}
+                setIsReviewable={setIsReviewable}
+              />
+            );
           })
         ) : (
           <Text className="mx-auto mt-4 mb-10">
