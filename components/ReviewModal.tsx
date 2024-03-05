@@ -11,7 +11,13 @@ interface Iprops {
   setReviews: Function;
 }
 
-const ReviewModal = (props: Iprops) => {
+const ReviewModal = ({
+  setReviews,
+  setIsReviewable,
+}: {
+  setReviews: Function;
+  setIsReviewable: Function;
+}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -29,7 +35,7 @@ const ReviewModal = (props: Iprops) => {
   const handleSubmit = async () => {
     if (rating) {
       try {
-        const postedReview = await postReview(music_id as string, {
+        await postReview(music_id as string, {
           username: user.username,
           rating: rating,
           review_title: title,
@@ -39,18 +45,25 @@ const ReviewModal = (props: Iprops) => {
         setModalVisible(!modalVisible);
         setRating(0);
 
-        props.setReviews((currentReviews: Review[]) => {
-          return [
-            {
+        setReviews(
+          (currentReviews: {
+            userReview: Review | null;
+            globalReviews: Review[];
+          }) => {
+            currentReviews["userReview"] = {
               username: user.username,
               rating: rating,
               review_title: title,
               review_body: body,
               created_at: new Date().toISOString(),
-            },
-            ...currentReviews,
-          ];
-        });
+              music_id: music_id as string,
+            };
+
+            return currentReviews;
+          }
+        );
+
+        setIsReviewable((current: Boolean) => !current);
       } catch (err) {
         console.log("🚀 ~ file: ReviewModal.tsx:33 ~ handleSubmit ~ err:", err);
       }
@@ -70,7 +83,6 @@ const ReviewModal = (props: Iprops) => {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
           setModalVisible(!modalVisible);
         }}
       >

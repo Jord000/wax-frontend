@@ -11,7 +11,7 @@ import SingleReview from "./SingleReview";
 export const Reviews = () => {
   const { music_id } = useGlobalSearchParams();
   const [reviews, setReviews] = useState<{
-    userReview: Review;
+    userReview: Review | null;
     globalReviews: Review[];
   }>();
   const { user } = useContext(UserContext);
@@ -22,7 +22,7 @@ export const Reviews = () => {
       const reviewData = await getReviews(music_id as string, user.username);
       setReviews(reviewData);
     })();
-  }, [isReviewable]);
+  }, [ isReviewable]);
 
   return (
     <>
@@ -35,7 +35,10 @@ export const Reviews = () => {
           />
         </View>
       ) : (
-        <ReviewModal setReviews={setReviews} />
+        <ReviewModal
+          setReviews={setReviews}
+          setIsReviewable={setIsReviewable}
+        />
       )}
       <View className="bg-[#faf6ff]">
         <Text className="mt-2 text-center font-bold text-lg">REVIEWS</Text>

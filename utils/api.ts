@@ -37,7 +37,7 @@ export const getReviews = async (music_id?: string, username?: string) => {
       `/reviews/${music_id}/${username}`,
       { headers: { Authorization: `Bearer ${await refreshSession()}` } }
     );
-
+    
     return response.data.reviews;
   } catch (err) {
     console.log("🚀 ~ file: api.ts:24 ~ getReviews ~ err:", err);
@@ -47,7 +47,7 @@ export const getReviews = async (music_id?: string, username?: string) => {
 export const postReview = async (music_id: string, review: PostReview) => {
   try {
     const response: AxiosResponse = await api.post(
-      `/reviews/${music_id}`,
+      `/reviews/${music_id}/${review.username}`,
       review,
       { headers: { Authorization: `Bearer ${await refreshSession()}` } }
     );

@@ -14,8 +14,8 @@ export interface Music {
 }
 
 export interface Review {
-  review_id: number;
-  music_id: number;
+  review_id?: number;
+  music_id: string;
   username: string;
   rating: number;
   review_title: string | null;

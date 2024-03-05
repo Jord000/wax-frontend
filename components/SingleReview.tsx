@@ -12,7 +12,7 @@ const SingleReview = ({ review, setIsReviewable }: { review: Review,setIsReviewa
 
   const handleDelete = async (review_id: number) => {
     setIsReviewable((current: Boolean)=>!current)
-    const deleteThis = await deleteReview(review_id);
+    await deleteReview(review_id);
   };
 
   return (
