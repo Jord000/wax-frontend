@@ -2,7 +2,7 @@ import { Text, View, Image, Pressable } from "react-native";
 import { Music } from "../types/front-end";
 import React, { useEffect, useState } from "react";
 import { useGlobalSearchParams } from "expo-router";
-import { getMusic } from "../utils/api";
+import { getMusic, getSpotifyTrackList } from "../utils/api";
 import { Audio } from "expo-av";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -17,6 +17,26 @@ const AlbumPage = () => {
     (async () => {
       const musicData = await getMusic(music_id as string, "true");
       setMusicContent(musicData);
+
+      //!
+
+      const trackData = await getSpotifyTrackList(music_id as string);
+      console.log("🚀 ~ trackData:", trackData)
+
+
+      // const trackList = trackData.map((track: any) => {
+      //   return {
+      //     name: track.name,
+      //     id: track.id,
+      //     track_number: track.track_number,
+      //     disc_number: track.disc_number,
+      //     spotify_url: track.external_urls.spotify,
+      //   };
+      // });
+
+      // console.log("🚀 ~ trackList ~ trackList:", trackList)
+
+      //!
 
       let score = parseInt(musicData?.avg_rating);
       if (score < 7 && score > 4) {

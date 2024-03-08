@@ -74,6 +74,19 @@ export const getSpotifyMusic = async (type: string, q: string) => {
   }
 };
 
+export const getSpotifyTrackList = async (music_id: string) => {
+  try {
+    const response: AxiosResponse = await api.get(
+      `/search/${music_id}/tracks`,
+   
+      { headers: { Authorization: `Bearer ${await refreshSession()}` } }
+    );
+    return response.data.music;
+  } catch (err) {
+    console.log("🚀 ~ getSpotifyTrackList ~ err:", err);
+  }
+};
+
 export const deleteReview = async (review_id: number) => {
   try {
     const response: AxiosResponse = await api.delete(`/reviews/${review_id}`, {
