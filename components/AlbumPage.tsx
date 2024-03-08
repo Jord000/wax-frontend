@@ -85,7 +85,7 @@ const AlbumPage = () => {
           {tracks && tracks?.length
             ? tracks.map((track) => {
                 return (
-                  <Text className="py-2">{`${track.track_number}: ${track.name}`}</Text>
+                  <Text key={track.id} className="py-2">{`${track.track_number}: ${track.name}`}</Text>
                 );
               })
             : null}
