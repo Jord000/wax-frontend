@@ -45,18 +45,6 @@ const Albums = () => {
     doThis();
   }, [isSpotifySearched]);
 
-  if (isLoading) {
-    return (
-      <View className="mt-[100%]">
-        <ActivityIndicator
-          size="large"
-          style={{ transform: [{ scaleX: 2 }, { scaleY: 2 }] }}
-          color="#B56DE4"
-        />
-      </View>
-    );
-  }
-
   return (
     <SafeAreaView className="h-[100%]">
       <TouchableWithoutFeedback
@@ -119,13 +107,22 @@ const Albums = () => {
           setIsSpotifySearched={setIsSpotifySearched}
         />
       )}
-      {isSpotifySearched && Array.isArray(searchedUpMusic) ? (
+
+      {isLoading ? (
+        <View className="mt-[100%]">
+          <ActivityIndicator
+            size="large"
+            style={{ transform: [{ scaleX: 2 }, { scaleY: 2 }] }}
+            color="#B56DE4"
+          />
+        </View>
+      ) : isSpotifySearched && Array.isArray(searchedUpMusic) ? (
         <ScrollView
           refreshControl={
             <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
           }
         >
-          <View className="flex flex-row flex-wrap justify-betweenbg-pink-50 mb-20 mt-5 h-[85%]">
+          <View className="flex flex-row flex-wrap justify-between bg-pink-50 mb-20 mt-5 h-[85%]">
             {searchedUpMusic.map((track) => (
               <Pressable
                 key={track.music_id}

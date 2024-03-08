@@ -24,7 +24,7 @@ export const getMusic = async (
         headers: { Authorization: `Bearer ${await refreshSession()}` },
       }
     );
-
+   
     return response.data.music;
   } catch (err) {
     console.log("🚀 ~ file: api.ts:11 ~ getMusic ~ err:", err);
