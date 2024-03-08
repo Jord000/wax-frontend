@@ -22,28 +22,12 @@ const AlbumPage = () => {
 
       setMusicContent(musicData);
 
-      //!
-
       if (!musicData?.tracks?.length) {
         const trackData = await getSpotifyTrackList(music_id as string);
         setTracks(trackData || []);
       } else {
         setTracks(musicData.tracks);
       }
-
-      // const trackList = trackData.map((track: any) => {
-      //   return {
-      //     name: track.name,
-      //     id: track.id,
-      //     track_number: track.track_number,
-      //     disc_number: track.disc_number,
-      //     spotify_url: track.external_urls.spotify,
-      //   };
-      // });
-
-      // console.log("🚀 ~ trackList ~ trackList:", trackList)
-
-      //!
 
       let score = parseInt(musicData?.avg_rating);
       if (score < 7 && score > 4) {
