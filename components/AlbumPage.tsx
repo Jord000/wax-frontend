@@ -1,10 +1,11 @@
 import { Text, View, Image, Pressable } from "react-native";
-import { Music } from "../types/front-end";
+import { Music, Track } from "../types/front-end";
 import React, { useEffect, useState } from "react";
 import { useGlobalSearchParams } from "expo-router";
 import { getMusic, getSpotifyTrackList } from "../utils/api";
 import { Audio } from "expo-av";
 import { Ionicons } from "@expo/vector-icons";
+import { ScrollView } from "react-native-gesture-handler";
 
 const AlbumPage = () => {
   const { music_id } = useGlobalSearchParams();
@@ -12,17 +13,23 @@ const AlbumPage = () => {
   const [ratingColor, setRatingColor] = useState("text-green-800");
   const [isPlaying, setIsPlaying] = useState(false);
   const [sound, setSound] = useState<Audio.Sound | undefined>();
+  const [isAlbumFlipped, setIsAlbumFlipped] = useState(false);
+  const [tracks, setTracks] = useState<Track[] | []>([]);
 
   useEffect(() => {
     (async () => {
       const musicData = await getMusic(music_id as string, "true");
+
       setMusicContent(musicData);
 
       //!
 
-      const trackData = await getSpotifyTrackList(music_id as string);
-      console.log("🚀 ~ trackData:", trackData)
-
+      if (!musicData?.tracks?.length) {
+        const trackData = await getSpotifyTrackList(music_id as string);
+        setTracks(trackData || []);
+      } else {
+        setTracks(musicData.tracks);
+      }
 
       // const trackList = trackData.map((track: any) => {
       //   return {
@@ -89,24 +96,56 @@ const AlbumPage = () => {
         })}
       </View>
 
-      <Image
-        source={{ uri: musicContent?.album_img }}
-        className="h-[350] w-[350] rounded-md"
-      />
-      {musicContent?.preview && (
-        <Pressable onPress={handlePlay} className="mt-6">
-          {!isPlaying && <Ionicons name="play" size={50} color={"black"} />}
-          {isPlaying && <Ionicons name="pause" size={50} color={"black"} />}
-        </Pressable>
+      {isAlbumFlipped ? (
+        <ScrollView className="h-[350] w-[350] rounded-md">
+          {tracks && tracks?.length
+            ? tracks.map((track) => {
+                return (
+                  <Text className="py-2">{`${track.track_number}: ${track.name}`}</Text>
+                );
+              })
+            : null}
+        </ScrollView>
+      ) : (
+        <Image
+          source={{ uri: musicContent?.album_img }}
+          className="h-[350] w-[350] rounded-md"
+        />
       )}
+
       {!musicContent?.avg_rating && (
         <Text className="font-bold text-lg">no reviews yet...</Text>
       )}
-      {musicContent?.avg_rating && (
-        <Text className={`${ratingColor} font-bold text-lg m-2 p-2`}>
-          Rating: {musicContent?.avg_rating}
-        </Text>
-      )}
+      <View className="flex flex-row justify-center w-full">
+        {musicContent?.avg_rating && (
+          <Text className={`${ratingColor} font-bold text-lg m-2 p-2`}>
+            Rating: {musicContent?.avg_rating}
+          </Text>
+        )}
+        {musicContent?.preview && (
+          <Pressable
+            onPress={handlePlay}
+            className="flex justify-center align-middle"
+          >
+            {!isPlaying && <Ionicons name="play" size={40} color={"black"} />}
+            {isPlaying && <Ionicons name="pause" size={40} color={"black"} />}
+          </Pressable>
+        )}
+        {tracks.length ? (
+          <Pressable
+            onPress={() => {
+              setIsAlbumFlipped(!isAlbumFlipped);
+            }}
+            className="flex justify-center align-middle"
+          >
+            <Ionicons
+              name="play-skip-forward-outline"
+              size={30}
+              color={"black"}
+            />
+          </Pressable>
+        ) : null}
+      </View>
     </View>
   );
 };

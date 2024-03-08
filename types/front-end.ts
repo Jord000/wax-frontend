@@ -29,3 +29,11 @@ export interface PostReview {
   review_title: string | null;
   review_body: string | null;
 }
+
+export interface Track {
+  id: string;
+  track_number: number;
+  disc_number: number;
+  spotify_url: string;
+  name: string;
+}

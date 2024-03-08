@@ -81,7 +81,7 @@ export const getSpotifyTrackList = async (music_id: string) => {
    
       { headers: { Authorization: `Bearer ${await refreshSession()}` } }
     );
-    return response.data.music;
+    return response.data.tracks;
   } catch (err) {
     console.log("🚀 ~ getSpotifyTrackList ~ err:", err);
   }
