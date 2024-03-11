@@ -19,7 +19,7 @@ export const Reviews = () => {
 
   useEffect(() => {
     (async () => {
-      const reviewData = await getReviews(music_id as string, user.username);
+      const reviewData = await getReviews(music_id as string, user.username || "guest");
       setReviews(reviewData);
     })();
   }, [ isReviewable]);

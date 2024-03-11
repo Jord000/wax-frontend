@@ -76,8 +76,24 @@ export default function Auth({ session }: { session: Session | null }) {
     }
   }
 
+  const handleGuestLogin = async () => {
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithPassword({
+      email: "guest@wax.io",
+      password: "Guest",
+    });
+
+    if (error) {
+      Alert.alert(error.message);
+      setLoading(false);
+    } else {
+      router.replace("/(auth)/music");
+      setLoading(false);
+    }
+  }
+
   return (
-    <View>
+    <View className="h-full">
       <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
         <View className="w-full h-1/4 justify-center items-center mt-14 mb-8">
           <Image
@@ -129,42 +145,53 @@ export default function Auth({ session }: { session: Session | null }) {
         </View>
       </TouchableWithoutFeedback>
       {!isSigningUp && (
-        <View className="m-auto mt-4">
-          <FormButton
-            text="Sign in"
-            disabled={loading}
-            onPress={() => signInWithEmail()}
-          />
-        </View>
-      )}
+        <>
+          <View className="m-auto my-4">
+            <FormButton
+              text="Sign in"
+              disabled={loading}
+              onPress={() => signInWithEmail()}
+            />
+          </View>
 
-      {!isSigningUp && (
-        <View className="m-auto mt-4">
-          <FormButton
-            text="I'd like to sign up!!"
-            disabled={loading}
-            onPress={() => setIsSingingUp(!isSigningUp)}
-          />
-        </View>
+          <View className="h-1/3 flex flex-col justify-between">
+            <View className="m-auto mt-4">
+              <FormButton
+                text="Sign up"
+                disabled={loading}
+                onPress={() => setIsSingingUp(!isSigningUp)}
+              />
+            </View>
+
+            <View className="m-auto mt-4">
+              <FormButton
+                text="Continue as Guest"
+                disabled={loading}
+                onPress={() => handleGuestLogin()}
+              />
+            </View>
+          </View>
+        </>
       )}
 
       {isSigningUp && (
-        <View className="m-auto mt-4">
-          <FormButton
-            text="Sign up"
-            disabled={loading}
-            onPress={() => signUpWithEmail()}
-          />
-        </View>
-      )}
-      {isSigningUp && (
-        <View className="m-auto mt-4">
-          <FormButton
-            text="Go Back"
-            disabled={loading}
-            onPress={() => setIsSingingUp(false)}
-          />
-        </View>
+        <>
+          <View className="m-auto mt-4">
+            <FormButton
+              text="Sign up"
+              disabled={loading}
+              onPress={() => signUpWithEmail()}
+            />
+          </View>
+
+          <View className="m-auto mt-4">
+            <FormButton
+              text="Go Back"
+              disabled={loading}
+              onPress={() => setIsSingingUp(false)}
+            />
+          </View>
+        </>
       )}
     </View>
   );
