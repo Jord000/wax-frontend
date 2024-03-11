@@ -146,7 +146,7 @@ export default function Auth({ session }: { session: Session | null }) {
       </TouchableWithoutFeedback>
       {!isSigningUp && (
         <>
-          <View className="m-auto my-4">
+          <View className="mx-auto my-4">
             <FormButton
               text="Sign in"
               disabled={loading}
@@ -155,7 +155,7 @@ export default function Auth({ session }: { session: Session | null }) {
           </View>
 
           <View className="h-1/3 flex flex-col justify-between">
-            <View className="m-auto mt-4">
+            <View className="mx-auto my-4">
               <FormButton
                 text="Sign up"
                 disabled={loading}
@@ -163,7 +163,7 @@ export default function Auth({ session }: { session: Session | null }) {
               />
             </View>
 
-            <View className="m-auto mt-4">
+            <View className="mx-auto my-16">
               <FormButton
                 text="Continue as Guest"
                 disabled={loading}

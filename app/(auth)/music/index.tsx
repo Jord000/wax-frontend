@@ -37,12 +37,11 @@ const Albums = () => {
   }, []);
 
   useEffect(() => {
-    const doThis = async () => {
+    (async () => {
       const musicData = await getMusic();
       setMusic(musicData);
       setisLoading(false);
-    };
-    doThis();
+    })();
   }, [isSpotifySearched]);
 
   return (
