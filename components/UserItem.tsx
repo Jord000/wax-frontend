@@ -6,7 +6,7 @@ const UserItem = ({
   textModifier,
 }: {
   username: string;
-  textModifier: string;
+  textModifier?: string;
 }) => {
   return (
     <Pressable onPress={() => router.push(`/(auth)/users/${username}`)}>
