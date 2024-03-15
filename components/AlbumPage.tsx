@@ -6,6 +6,7 @@ import { getMusic, getSpotifyTrackList } from "../utils/api";
 import { Audio } from "expo-av";
 import { Ionicons } from "@expo/vector-icons";
 import { ScrollView } from "react-native-gesture-handler";
+import { router } from "expo-router";
 
 const AlbumPage = () => {
   const { music_id } = useGlobalSearchParams();
@@ -61,6 +62,10 @@ const AlbumPage = () => {
     });
   };
 
+  const goToArtistSearch = (artistName: string) => {
+    router.push({ pathname: `/(auth)/music`, params: { artistName } });
+  };
+
   return (
     <View className="bg-[#faf6ff] flex justify-center items-center">
       <Text className="text-center  text-xl font-bold my-3 ">
@@ -70,12 +75,16 @@ const AlbumPage = () => {
       <View className="mb-3">
         {musicContent?.artist_names.map((artistName) => {
           return (
-            <Text
+            <Pressable
               key={artistName}
-              className="text-center m-50 text-xl m-1 underline-offset-3 underline"
+              onPress={() => {
+                goToArtistSearch(artistName);
+              }}
             >
-              {artistName}
-            </Text>
+              <Text className="text-center m-50 text-xl m-1 underline-offset-3 underline">
+                {artistName}
+              </Text>
+            </Pressable>
           );
         })}
       </View>
@@ -85,7 +94,10 @@ const AlbumPage = () => {
           {tracks && tracks?.length
             ? tracks.map((track) => {
                 return (
-                  <Text key={track.id} className="py-2">{`${track.track_number}: ${track.name}`}</Text>
+                  <Text
+                    key={track.id}
+                    className="py-2"
+                  >{`${track.track_number}: ${track.name}`}</Text>
                 );
               })
             : null}

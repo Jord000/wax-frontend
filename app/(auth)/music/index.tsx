@@ -9,9 +9,12 @@ import {
   RefreshControl,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { router } from "expo-router";
+import {
+  router,
+  useGlobalSearchParams,
+} from "expo-router";
 import { useCallback, useEffect, useState } from "react";
-import { getMusic } from "../../../utils/api";
+import { getMusic, getSpotifyMusic } from "../../../utils/api";
 import { Music } from "../../../types/front-end";
 import SearchDropDown from "../../../components/SearchDropDown";
 import { Ionicons } from "@expo/vector-icons";
@@ -36,13 +39,38 @@ const Albums = () => {
     }, 2000);
   }, []);
 
+  const params = useGlobalSearchParams();
+
   useEffect(() => {
     (async () => {
+      if (params.artistName) {
+        handleSearchSubmit(params.artistName as string);
+      }
+      else{
       const musicData = await getMusic();
       setMusic(musicData);
-      setisLoading(false);
+      setisLoading(false);}
     })();
-  }, [isSpotifySearched]);
+  }, [params]);
+
+  const handleSearchSubmit = async (artistName: string) => {
+    setisLoading(true);
+      try {
+        const spotifyMusic = await getSpotifyMusic('album', artistName);
+        setSearchText(artistName)
+        setDropDVis(false);
+        setisLoading(false);
+        setIsSpotifySearched(true);
+        setSearchedUpMusic(spotifyMusic);
+      } catch (err) {
+        router.setParams({})
+        console.log("🚀 ~ handleSearchSubmit ~ err:", err);
+      } finally {
+        setisLoading(false);
+        
+      }
+    
+  };
 
   return (
     <SafeAreaView className="h-[100%]">

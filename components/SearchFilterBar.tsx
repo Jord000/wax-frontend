@@ -1,6 +1,7 @@
 import { View, Text, Pressable } from "react-native";
 import { FC } from "react";
 import { AntDesign } from "@expo/vector-icons";
+import { router } from "expo-router";
 
 interface Props {
   searchText: string;
@@ -14,6 +15,7 @@ const SearchFilterBar: FC<Props> = ({ searchText, setIsSpotifySearched }) => {
       <Pressable
         onPress={() => {
           setIsSpotifySearched(false)
+          router.setParams({artistName:''})
         }}
         className=" ml-auto mr-8"
       >
