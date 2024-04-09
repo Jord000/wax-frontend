@@ -27,7 +27,7 @@ const Albums = () => {
   const [searchedUpMusic, setSearchedUpMusic] = useState<Music[]>([]);
   const [searchText, setSearchText] = useState(" ");
   const [isLoading, setisLoading] = useState(true);
-  const [buttonColor, setButtonColor] = useState("");
+  const [buttonColor, setButtonColor] = useState({slot1: '',slot2: ''});
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const onRefresh = useCallback(() => {
@@ -81,15 +81,15 @@ const Albums = () => {
       >
         <View className="w-full h-24 flex-row items-center justify-around bg-[#B56DE4] ">
           <Pressable
-            className={`items-center mx-6 p-2 ${buttonColor} rounded-md`}
+            className={`items-center mx-6 p-2 ${buttonColor.slot1} rounded-md`}
             onPressIn={() => {
-              setButtonColor("bg-[#9058B5]");
+              setButtonColor({...buttonColor,slot1:"bg-[#9058B5]"});
               setDropDVis(!dropDVis);
               setIsSpotifySearched(false);
               setSearchText("");
             }}
             onPressOut={() => {
-              setButtonColor("");
+              setButtonColor({...buttonColor,slot1:""});
             }}
           >
             <Ionicons
@@ -105,8 +105,11 @@ const Albums = () => {
             resizeMode="center"
           />
           <Pressable
-            onPress={() => router.push(`/(auth)/users`)}
-            className={`items-center mx-6 p-2`}
+            onPressIn={()=>{setButtonColor({...buttonColor,slot2:"bg-[#9058B5]"})}}
+            onPressOut={() => {
+              setButtonColor({...buttonColor,slot2:""})
+              router.push(`/(auth)/users`)}}
+            className={`items-center mx-6 p-2 ${buttonColor.slot2} rounded-md`}
           >
             <Ionicons
               name="person-outline"
