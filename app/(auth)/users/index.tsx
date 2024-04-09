@@ -33,14 +33,18 @@ const CurrentUser = () => {
           <Text className="text-white text-lg w-auto m-auto">Sign Out</Text>
         </Pressable>
       </View>
-
+      <View>
+        <Text className="p-4 my-auto font-bold text-lg">Recent Activity</Text>
+        {/* this is where we want the recent 
+        reviewed music to go last 3 reviews?*/ }
+      </View>
       <Text className="p-4">You are folowing :</Text>
 
-      {user.following.map((user) => (
-        <View key={user} className="px-4">
-          <UserItem username={user} textModifier="text-lg" />
-        </View>
-      ))}
+      <View className="px-4">
+        {user.following.map((user) => (
+          <UserItem key={user} username={user} textModifier="text-lg" />
+        ))}
+      </View>
     </View>
   );
 };

@@ -43,19 +43,25 @@ const UserPage = () => {
 
   return (
     <View>
-      <Text>Username: {username}</Text>
+      <Text className="p-4 my-auto font-bold text-lg">
+        {username}'s activity
+      </Text>
+      {/* this is where we want the feed of 
+      recent reviews for a user to go maybe 3 most recent reviews?*/}
       {user.following.includes(username as string) ? (
         <Pressable onPress={handleUnfollow}>
-          <Text>Following</Text>
+          <Text className="p-4">{username} is Following</Text>
         </Pressable>
       ) : (
         <Pressable onPress={handleFollow}>
           <Text>Follow</Text>
         </Pressable>
       )}
-      {connections.map((user) => (
-        <UserItem key={user} username={user} />
-      ))}
+      <View className="px-4">
+        {connections.map((user) => (
+          <UserItem key={user} username={user} textModifier="text-lg" />
+        ))}
+      </View>
     </View>
   );
 };
