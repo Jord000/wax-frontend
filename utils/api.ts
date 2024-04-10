@@ -44,6 +44,19 @@ export const getReviews = async (music_id?: string, username?: string) => {
   }
 };
 
+export const getReviewsByUsername = async (username?: string) => {
+  try {
+    const response: AxiosResponse = await api.get(
+      `/reviews/${username}`,
+      { headers: { Authorization: `Bearer ${await refreshSession()}` } }
+    );
+
+    return response.data.reviews;
+  } catch (err) {
+    console.log("🚀 ~ file: api.ts:24 ~ getReviews ~ err:", err);
+  }
+};
+
 export const postReview = async (music_id: string, review: PostReview) => {
   try {
     const response: AxiosResponse = await api.post(
