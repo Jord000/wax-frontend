@@ -8,6 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const CurrentUser = () => {
   const { user, setUser } = useContext(UserContext);
+  /* const [activity, setActivity] = useState([])*/
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -17,6 +18,7 @@ const CurrentUser = () => {
   };
 
   useEffect(() => {
+    /* make the request for activity and set state here?*/
     !user.username && router.push(`/(auth)/`);
   }, []);
 
@@ -36,7 +38,30 @@ const CurrentUser = () => {
       <View>
         <Text className="p-4 my-auto font-bold text-lg">Recent Activity</Text>
         {/* this is where we want the recent 
-        reviewed music to go last 3 reviews?*/ }
+        reviewed music to go... last 3 reviews?
+        seperate get request per the user.username and add that to a new piece of state?
+          {activity.map((track)=>(
+            <Pressable
+                key={track.music_id}
+                onPress={() => router.push(`/(auth)/music/${track.music_id}`)}
+                className="w-1/2 h-auto"
+              >
+                <View
+                  key={track.music_id}
+                  className=" p-4 bg-white rounded-lg items-center justify-center"
+                >
+                  <Image
+                    source={{ uri: track.album_img }}
+                    className="w-40 h-40  rounded-lg"
+                  />
+                  <Text className="text-center py-1">{track.artist_names}</Text>
+                  <Text className="text-center">{track.name}</Text>
+                </View>
+              </Pressable>)
+        )}
+        
+        */ }
+      
       </View>
       <Text className="p-4">You are folowing :</Text>
 
