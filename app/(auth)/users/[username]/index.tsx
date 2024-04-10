@@ -50,7 +50,12 @@ const UserPage = () => {
       </Text>
       {/* this is where we want the feed of 
       recent reviews for a user to go maybe 3 most recent reviews?
-         {activity.map((track)=>(
+
+      once in styling will need messing with, 
+      could have writing on the right of the album instead of underneath
+      display in a column rather than a grid.
+
+          {activity.map((track)=>(
             <Pressable
                 key={track.music_id}
                 onPress={() => router.push(`/(auth)/music/${track.music_id}`)}

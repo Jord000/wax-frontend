@@ -40,7 +40,12 @@ const CurrentUser = () => {
         {/* this is where we want the recent 
         reviewed music to go... last 3 reviews?
         seperate get request per the user.username and add that to a new piece of state?
-          {activity.map((track)=>(
+          
+        once in styling will need messing with, 
+        could have writing on the right of the album instead of underneath
+        display in a column rather than a grid.
+        
+        {activity.map((track)=>(
             <Pressable
                 key={track.music_id}
                 onPress={() => router.push(`/(auth)/music/${track.music_id}`)}
@@ -60,8 +65,7 @@ const CurrentUser = () => {
               </Pressable>)
         )}
         
-        */ }
-      
+        */}
       </View>
       <Text className="p-4">You are folowing :</Text>
 
