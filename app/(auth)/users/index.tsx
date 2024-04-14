@@ -1,14 +1,16 @@
-import { useContext, useEffect } from "react";
-import { Pressable, Text, View } from "react-native";
+import { useContext, useEffect, useState } from "react";
+import { Pressable, ScrollView, Text, View } from "react-native";
 import UserItem from "../../../components/UserItem";
 import { UserContext } from "../../../contexts/UserContent";
 import { supabase } from "../../../lib/supabase";
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getReviewsByUsername } from "../../../utils/api";
+import ReviewHistory from "../../../components/ReviewHistory";
 
 const CurrentUser = () => {
   const { user, setUser } = useContext(UserContext);
-  /* const [activity, setActivity] = useState([])*/
+  const [activity, setActivity] = useState([]);
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
@@ -18,7 +20,12 @@ const CurrentUser = () => {
   };
 
   useEffect(() => {
-    /* make the request for activity and set state here?*/
+    user.username &&
+      (async () => {
+        const userReviews = await getReviewsByUsername(user.username);
+        setActivity(userReviews);
+      })();
+
     !user.username && router.push(`/(auth)/`);
   }, []);
 
@@ -36,44 +43,18 @@ const CurrentUser = () => {
         </Pressable>
       </View>
       <View>
-        <Text className="p-4 my-auto font-bold text-lg">Recent Activity</Text>
-        {/* this is where we want the recent 
-        reviewed music to go... last 3 reviews?
-        seperate get request per the user.username and add that to a new piece of state?
-          
-        once in styling will need messing with, 
-        could have writing on the right of the album instead of underneath
-        display in a column rather than a grid.
-        
-        {activity.map((track)=>(
-            <Pressable
-                key={track.music_id}
-                onPress={() => router.push(`/(auth)/music/${track.music_id}`)}
-                className="w-1/2 h-auto"
-              >
-                <View
-                  key={track.music_id}
-                  className=" p-4 bg-white rounded-lg items-center justify-center"
-                >
-                  <Image
-                    source={{ uri: track.album_img }}
-                    className="w-40 h-40  rounded-lg"
-                  />
-                  <Text className="text-center py-1">{track.artist_names}</Text>
-                  <Text className="text-center">{track.name}</Text>
-                </View>
-              </Pressable>)
-        )}
-        
-        */}
+        <Text className="px-4 pb-4 my-auto font-bold text-lg">
+          Recent Activity:
+        </Text>
+        <ReviewHistory activity={activity} />
       </View>
-      <Text className="p-4">You are folowing :</Text>
-
-      <View className="px-4">
-        {user.following.map((user) => (
-          <UserItem key={user} username={user} textModifier="text-lg" />
-        ))}
-      </View>
+      <Text className="p-4 font-bold text-lg">You are following:</Text>
+      <ScrollView className="px-4 mb-4 h-[33vh] mx-4 bg-white rounded-lg">
+        {user.following.length &&
+          user.following.map((user) => (
+            <UserItem key={user} username={user} textModifier="text-lg" />
+          ))}
+      </ScrollView>
     </View>
   );
 };
