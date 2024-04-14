@@ -2,6 +2,7 @@ import { router } from "expo-router";
 import { Pressable, View, Image, Text, ScrollView } from "react-native";
 
 const ReviewHistory = ({ activity }: { activity: any }) => {
+  console.log(activity);
   return (
     <ScrollView className="max-h-[35vh] mx-4 bg-white rounded-lg">
       {activity.map(
@@ -12,6 +13,7 @@ const ReviewHistory = ({ activity }: { activity: any }) => {
           album_img: string;
           artist_names: string[];
           name: string;
+          created_at: string;
         }) => (
           <Pressable
             key={trackReview.music_id}
@@ -24,17 +26,20 @@ const ReviewHistory = ({ activity }: { activity: any }) => {
             >
               <Image
                 source={{ uri: trackReview.album_img }}
-                className="h-24 w-24  rounded-md"
+                className="h-28 w-28  rounded-md"
               />
               <View className="w-[60%]">
                 <Text className="text-sm font-bold text-center">
                   {trackReview.name}
                 </Text>
-                <Text className="text-xs font-bold text-center">
+                <Text className="text-xs font-bold text-center m-1">
                   {trackReview.artist_names[0]}
                 </Text>
-                <Text className="text-sm text-center my-2">
+                <Text className="text-md text-center my-1">
                   {trackReview.review_body}
+                </Text>
+                <Text className="text-xs text-slate-500 text-center">
+                  Posted On: {trackReview.created_at?.substring(0, 10)}
                 </Text>
               </View>
             </View>
