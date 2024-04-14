@@ -20,13 +20,12 @@ const CurrentUser = () => {
   };
 
   useEffect(() => {
-    user.username &&
-      (async () => {
-        const userReviews = await getReviewsByUsername(user.username);
-        setActivity(userReviews);
-      })();
-
     !user.username && router.push(`/(auth)/`);
+
+    (async () => {
+      const userReviews = await getReviewsByUsername(user.username);
+      setActivity(userReviews);
+    })();
   }, []);
 
   return (
