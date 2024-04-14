@@ -2,7 +2,6 @@ import { router } from "expo-router";
 import { Pressable, View, Image, Text, ScrollView } from "react-native";
 
 const ReviewHistory = ({ activity }: { activity: any }) => {
-  console.log(activity);
   return (
     <ScrollView className="max-h-[35vh] mx-4 bg-white rounded-lg">
       {activity.map(
