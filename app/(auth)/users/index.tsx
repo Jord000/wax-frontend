@@ -1,5 +1,11 @@
 import { useContext, useEffect, useState } from "react";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 import UserItem from "../../../components/UserItem";
 import { UserContext } from "../../../contexts/UserContent";
 import { supabase } from "../../../lib/supabase";
@@ -9,6 +15,7 @@ import { getReviewsByUsername } from "../../../utils/api";
 import ReviewHistory from "../../../components/ReviewHistory";
 
 const CurrentUser = () => {
+  const [loading, setLoading] = useState(true);
   const { user, setUser } = useContext(UserContext);
   const [activity, setActivity] = useState([]);
 
@@ -25,10 +32,18 @@ const CurrentUser = () => {
     (async () => {
       const userReviews = await getReviewsByUsername(user.username);
       setActivity(userReviews);
+      setLoading(false);
     })();
   }, []);
 
-  return (
+  return loading ? (
+    <ActivityIndicator
+      size="large"
+      style={{ transform: [{ scaleX: 2 }, { scaleY: 2 }] }}
+      color="#B56DE4"
+      className="m-auto"
+    />
+  ) : (
     <View>
       <View className="flex flex-row justify-between">
         <Text className="p-4 my-auto font-bold text-lg">
@@ -49,10 +64,9 @@ const CurrentUser = () => {
       </View>
       <Text className="p-4 font-bold text-lg">You are following:</Text>
       <ScrollView className="px-4 mb-4 h-[33vh] mx-4 bg-white rounded-lg">
-        {user.following.length &&
-          user.following.map((user) => (
-            <UserItem key={user} username={user} textModifier="text-lg" />
-          ))}
+        {user.following.map((user) => (
+          <UserItem key={user} username={user} textModifier="text-lg" />
+        ))}
       </ScrollView>
     </View>
   );
