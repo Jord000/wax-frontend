@@ -1,15 +1,29 @@
-import { Pressable, Text, View } from "react-native";
+import { Pressable, Text, View, ScrollView } from "react-native";
 import { useContext, useEffect, useState } from "react";
-import { useGlobalSearchParams } from "expo-router";
-import { getFollows, patchFollows } from "../../../../utils/api";
+import { router, useGlobalSearchParams } from "expo-router";
+import {
+  getFollows,
+  getReviewsByUsername,
+  patchFollows,
+} from "../../../../utils/api";
 import UserItem from "../../../../components/UserItem";
 import { UserContext } from "../../../../contexts/UserContent";
+import ReviewHistory from "../../../../components/ReviewHistory";
 
 const UserPage = () => {
   const { user, setUser } = useContext(UserContext);
   const { username } = useGlobalSearchParams();
   const [connections, setConnections] = useState([]);
-    /* const [activity, setActivity] = useState([])*/
+  const [activity, setActivity] = useState([]);
+
+  useEffect(() => {
+    !username && router.push(`/(auth)/`);
+
+    (async () => {
+      const userReviews = await getReviewsByUsername(username as string);
+      setActivity(userReviews);
+    })();
+  }, []);
 
   const handleFollow = () => {
     setUser(({ ...current }) => {
@@ -32,7 +46,6 @@ const UserPage = () => {
   };
 
   useEffect(() => {
-    /*request and set the activity based on username here?*/
     (async () => {
       try {
         const { following } = await getFollows(username as string);
@@ -46,50 +59,25 @@ const UserPage = () => {
   return (
     <View>
       <Text className="p-4 my-auto font-bold text-lg">
-        {username}'s activity
+        {username}'s activity:
       </Text>
-      {/* this is where we want the feed of 
-      recent reviews for a user to go maybe 3 most recent reviews?
 
-      once in styling will need messing with, 
-      could have writing on the right of the album instead of underneath
-      display in a column rather than a grid.
+      <ReviewHistory activity={activity} />
 
-          {activity.map((track)=>(
-            <Pressable
-                key={track.music_id}
-                onPress={() => router.push(`/(auth)/music/${track.music_id}`)}
-                className="w-1/2 h-auto"
-              >
-                <View
-                  key={track.music_id}
-                  className=" p-4 bg-white rounded-lg items-center justify-center"
-                >
-                  <Image
-                    source={{ uri: track.album_img }}
-                    className="w-40 h-40  rounded-lg"
-                  />
-                  <Text className="text-center py-1">{track.artist_names}</Text>
-                  <Text className="text-center">{track.name}</Text>
-                </View>
-              </Pressable>)
-        )}
-      
-      */}
       {user.following.includes(username as string) ? (
         <Pressable onPress={handleUnfollow}>
-          <Text className="p-4">{username} is Following</Text>
+          <Text className="p-4 font-bold text-lg">{username} is Following</Text>
         </Pressable>
       ) : (
         <Pressable onPress={handleFollow}>
-          <Text>Follow</Text>
+          <Text className="p-4 font-bold text-lg">Follow</Text>
         </Pressable>
       )}
-      <View className="px-4">
+      <ScrollView className="px-4 mb-4 h-[33vh] mx-4 bg-white rounded-lg">
         {connections.map((user) => (
           <UserItem key={user} username={user} textModifier="text-lg" />
         ))}
-      </View>
+      </ScrollView>
     </View>
   );
 };

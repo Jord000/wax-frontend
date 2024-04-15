@@ -30,9 +30,13 @@ const CurrentUser = () => {
     !user.username && router.push(`/(auth)/`);
 
     (async () => {
-      const userReviews = await getReviewsByUsername(user.username);
-      setActivity(userReviews);
-      setLoading(false);
+      try {
+        const userReviews = await getReviewsByUsername(user.username);
+        setActivity(userReviews);
+        setLoading(false);
+      } catch (error) {
+        console.log("🔎 ~ file: index.tsx:39 ~ error:", error);
+      }
     })();
   }, []);
 
