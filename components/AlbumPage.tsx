@@ -1,7 +1,7 @@
 import { Text, View, Image, Pressable } from "react-native";
 import { Music, Track } from "../types/front-end";
 import React, { EffectCallback, useEffect, useState } from "react";
-import { useGlobalSearchParams } from "expo-router";
+import { Navigator, useGlobalSearchParams } from "expo-router";
 import { getMusic, getSpotifyTrackList } from "../utils/api";
 import { Audio } from "expo-av";
 import { Ionicons } from "@expo/vector-icons";
@@ -152,6 +152,19 @@ const AlbumPage = () => {
           </Pressable>
         ) : null}
       </View>
+
+      <Pressable
+        className="bg-[#1ed760] p-4 rounded-full my-2"
+        onPress={() =>
+          router.replace(
+            `https://open.spotify.com/${tracks.length ? "album" : "track"}/${
+              musicContent?.music_id
+            }`
+          )
+        }
+      >
+        <Text className="font-|bold">Open in Spotify</Text>
+      </Pressable>
     </View>
   );
 };
