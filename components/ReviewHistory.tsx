@@ -1,5 +1,6 @@
 import { router } from "expo-router";
 import { Pressable, View, Image, Text, ScrollView } from "react-native";
+import RatingWheel from "./reusable-components/RatingWheel";
 
 const ReviewHistory = ({ activity }: { activity: any }) => {
   return (
@@ -13,6 +14,7 @@ const ReviewHistory = ({ activity }: { activity: any }) => {
           artist_names: string[];
           name: string;
           created_at: string;
+          rating: number;
         }) => (
           <Pressable
             key={trackReview.music_id}
@@ -21,13 +23,20 @@ const ReviewHistory = ({ activity }: { activity: any }) => {
           >
             <View
               key={trackReview.review_id}
-              className="h-max p-4 flex flex-row justify-between"
+              className="h-max p-4 flex flex-row justify-between border-violet-800 border-b"
             >
-              <Image
-                source={{ uri: trackReview.album_img }}
-                className="h-28 w-28  rounded-md"
-              />
-              <View className="w-[60%]">
+              <View>
+                <Image
+                  source={{ uri: trackReview.album_img }}
+                  className="h-24 w-24  rounded-md"
+                />
+
+                <View className="mx-auto mt-4">
+                  <RatingWheel rating={trackReview.rating} />
+                </View>
+              </View>
+
+              <View className="w-[66%]">
                 <Text className="text-sm font-bold text-center">
                   {trackReview.name}
                 </Text>
@@ -38,7 +47,7 @@ const ReviewHistory = ({ activity }: { activity: any }) => {
                   {trackReview.review_body}
                 </Text>
                 <Text className="text-xs text-slate-500 text-center">
-                  Posted On: {trackReview.created_at?.substring(0, 10)}
+                  Reviewed: {trackReview.created_at?.substring(0, 10)}
                 </Text>
               </View>
             </View>
