@@ -1,4 +1,4 @@
-import { Pressable, Text, View, ScrollView } from "react-native";
+import { Pressable, Text, View, ScrollView, ActivityIndicator } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import { router, useGlobalSearchParams } from "expo-router";
 import {
@@ -13,17 +13,9 @@ import ReviewHistory from "../../../../components/ReviewHistory";
 const UserPage = () => {
   const { user, setUser } = useContext(UserContext);
   const { username } = useGlobalSearchParams();
+  const [loading, setLoading] = useState(true);
   const [connections, setConnections] = useState([]);
   const [activity, setActivity] = useState([]);
-
-  useEffect(() => {
-    !username && router.push(`/(auth)/`);
-
-    (async () => {
-      const userReviews = await getReviewsByUsername(username as string);
-      setActivity(userReviews);
-    })();
-  }, []);
 
   const handleFollow = () => {
     setUser(({ ...current }) => {
@@ -46,17 +38,29 @@ const UserPage = () => {
   };
 
   useEffect(() => {
+    !username && router.push(`/(auth)/`);
+
     (async () => {
       try {
         const { following } = await getFollows(username as string);
+        const userReviews = await getReviewsByUsername(username as string);
         setConnections(following);
+        setActivity(userReviews);
+        setLoading(false);
       } catch (error) {
         console.log("🚀 ~ error:", error);
       }
     })();
   }, [username, user]);
 
-  return (
+  return loading ? (
+    <ActivityIndicator
+      size="large"
+      style={{ transform: [{ scaleX: 2 }, { scaleY: 2 }] }}
+      color="#B56DE4"
+      className="m-auto"
+    />
+  ) : (
     <View>
       <Text className="p-4 my-auto font-bold text-lg">
         {username}'s activity:
