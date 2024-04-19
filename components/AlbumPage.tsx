@@ -41,7 +41,6 @@ const AlbumPage = () => {
 
   useEffect((): any => {
     return async () => {
-      console.log("unloading media");
       await playableMedia?.unloadAsync();
     };
   }, [playableMedia]);
