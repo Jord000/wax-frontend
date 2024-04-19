@@ -152,7 +152,7 @@ const Albums = () => {
             <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
           }
         >
-          <View className="flex flex-row flex-wrap justify-between bg-pink-50 mb-20 mt-5 h-[85%]">
+          <View className="flex flex-row flex-wrap justify-between bg-pink-50 mb-20 mt-2 h-[85%]">
             {searchedUpMusic.map((track) => (
               <Pressable
                 key={track.music_id}
@@ -182,7 +182,7 @@ const Albums = () => {
             <RefreshControl refreshing={isRefreshing} onRefresh={onRefresh} />
           }
         >
-          <View className="flex flex-row flex-wrap justify-between bg-white min-h-fit">
+          <View className="flex flex-row flex-wrap justify-between bg-white min-h-fit pt-2">
             {music.map((track) => (
               <Pressable
                 key={track.music_id}
