@@ -53,7 +53,7 @@ export const getReviewsByUsername = async (username?: string) => {
 
     return response.data.reviews;
   } catch (err) {
-    console.log("🚀 ~ file: api.ts:24 ~ getReviews ~ err:", err);
+    console.log("🚀 ~ file: api.ts:24 ~ getReviewsByUsername ~ err:", err);
   }
 };
 

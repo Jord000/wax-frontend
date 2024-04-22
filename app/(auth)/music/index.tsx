@@ -26,7 +26,7 @@ const Albums = () => {
   const [isSpotifySearched, setIsSpotifySearched] = useState(false);
   const [searchedUpMusic, setSearchedUpMusic] = useState<Music[]>([]);
   const [searchText, setSearchText] = useState(" ");
-  const [isLoading, setisLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [buttonColor, setButtonColor] = useState({slot1: '',slot2: ''});
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -49,24 +49,24 @@ const Albums = () => {
       else{
       const musicData = await getMusic();
       setMusic(musicData);
-      setisLoading(false);}
+      setIsLoading(false);}
     })();
   }, [params]);
 
   const handleSearchSubmit = async (artistName: string) => {
-    setisLoading(true);
+    setIsLoading(true);
       try {
         const spotifyMusic = await getSpotifyMusic('album', artistName);
         setSearchText(artistName)
         setDropDVis(false);
-        setisLoading(false);
+        setIsLoading(false);
         setIsSpotifySearched(true);
         setSearchedUpMusic(spotifyMusic);
       } catch (err) {
         router.setParams({})
         console.log("🚀 ~ handleSearchSubmit ~ err:", err);
       } finally {
-        setisLoading(false);
+        setIsLoading(false);
         
       }
     
