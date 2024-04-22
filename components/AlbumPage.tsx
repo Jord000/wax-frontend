@@ -1,6 +1,6 @@
 import { Text, View, Image, Pressable } from "react-native";
 import { Music, Track } from "../types/front-end";
-import React, { useEffect, useState } from "react";
+import React, { EffectCallback, useEffect, useState } from "react";
 import { useGlobalSearchParams } from "expo-router";
 import { getMusic, getSpotifyTrackList } from "../utils/api";
 import { Audio } from "expo-av";
@@ -13,7 +13,7 @@ const AlbumPage = () => {
   const [musicContent, setMusicContent] = useState<Music>();
   const [ratingColor, setRatingColor] = useState("text-green-800");
   const [isPlaying, setIsPlaying] = useState(false);
-  const [sound, setSound] = useState<Audio.Sound | undefined>();
+  const [playableMedia, setPlayableMedia] = useState<Audio.Sound | undefined>();
   const [isAlbumFlipped, setIsAlbumFlipped] = useState(false);
   const [tracks, setTracks] = useState<Track[] | []>([]);
 
@@ -39,6 +39,12 @@ const AlbumPage = () => {
     })();
   }, []);
 
+  useEffect((): any => {
+    return async () => {
+      await playableMedia?.unloadAsync();
+    };
+  }, [playableMedia]);
+
   const handlePlay = async () => {
     await playPreview(!isPlaying);
   };
@@ -51,11 +57,15 @@ const AlbumPage = () => {
         },
         { shouldPlay: true }
       );
-      setSound(sound);
+      setPlayableMedia(sound);
 
-      await sound.playAsync();
-    } else if (typeof musicContent?.preview === "string" && !bool && sound) {
-      await sound.unloadAsync();
+      playableMedia && (await playableMedia.playAsync());
+    } else if (
+      typeof musicContent?.preview === "string" &&
+      !bool &&
+      playableMedia
+    ) {
+      await playableMedia.unloadAsync();
     }
     setIsPlaying((current) => {
       return !current;
